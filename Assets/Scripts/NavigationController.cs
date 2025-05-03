@@ -58,6 +58,19 @@ public class NavigationController : MonoBehaviour
         // Set initial button visibility based on the current scene
         UpdateButtonVisibility(SceneManager.GetActiveScene().name);
     }
+    private void Update()
+    {
+        // Check if aspect ratio needs to be reapplied (e.g., after orientation changes)
+        if (GlobalAspectRatioController.Instance != null)
+        {
+            if (Input.deviceOrientation == DeviceOrientation.Portrait ||
+                Input.deviceOrientation == DeviceOrientation.PortraitUpsideDown)
+            {
+                GlobalAspectRatioController.Instance.ApplyAspectRatio();
+            }
+        }
+    }
+
 
     /// <summary>
     /// Attaches click listeners to the navigation buttons.
