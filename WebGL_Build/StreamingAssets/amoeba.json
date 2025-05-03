@@ -1,0 +1,65 @@
+{
+  "imageUrl": "https://img.freepik.com/premium-vector/microorganism-with-nucleus-cytoplasm-is-spreading_96318-160162.jpg?w=900",
+  "labels": [
+    {
+      "labelText": "Nucleus",
+      "infoText": "The nucleus contains the cell's genetic material (DNA) and controls the cell's activities. In amoebas, it regulates cell division, growth, and protein synthesis.",
+      "normalizedPos": {
+        "x": 0.35,
+        "y": 0.5
+      },
+      "lineStartPos": {
+        "x": 0.3,
+        "y": 0.5
+      }
+    },
+    {
+      "labelText": "Cell Membrane",
+      "infoText": "The cell membrane is a thin, flexible barrier that surrounds the amoeba, separating the inside from the outside environment. It regulates what enters and exits the cell.",
+      "normalizedPos": {
+        "x": 0.8,
+        "y": 0.2
+      },
+      "lineStartPos": {
+        "x": 0.7,
+        "y": 0.2
+      }
+    },
+    {
+      "labelText": "Pseudopod",
+      "infoText": "Pseudopods are temporary projections of the cell used for movement and feeding. The amoeba extends these 'false feet' by flowing its cytoplasm in a particular direction.",
+      "normalizedPos": {
+        "x": 0.15,
+        "y": 0.3
+      },
+      "lineStartPos": {
+        "x": 0.2,
+        "y": 0.3
+      }
+    },
+    {
+      "labelText": "Food Vacuole",
+      "infoText": "Food vacuoles are membrane-bound sacs that contain food particles being digested by the amoeba. Enzymes break down the food into nutrients the cell can use.",
+      "normalizedPos": {
+        "x": 0.6,
+        "y": 0.6
+      },
+      "lineStartPos": {
+        "x": 0.55,
+        "y": 0.55
+      }
+    },
+    {
+      "labelText": "Contractile Vacuole",
+      "infoText": "The contractile vacuole is responsible for osmoregulation, expelling excess water from the cell to prevent it from bursting in freshwater environments.",
+      "normalizedPos": {
+        "x": 0.4,
+        "y": 0.4
+      },
+      "lineStartPos": {
+        "x": 0.35,
+        "y": 0.4
+      }
+    }
+  ]
+}
