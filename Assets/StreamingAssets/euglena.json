@@ -1,0 +1,65 @@
+{
+  "imageUrl": "https://img.freepik.com/premium-vector/vector-isolated-illustration-euglena-green-white-background_574777-3992.jpg?w=740",
+  "labels": [
+    {
+      "labelText": "Flagellum",
+      "infoText": "The flagellum is a long, whip-like structure that propels the euglena through water with a whipping motion.",
+      "normalizedPos": {
+        "x": 0.2,
+        "y": 0.15
+      },
+      "lineStartPos": {
+        "x": 0.3,
+        "y": 0.15
+      }
+    },
+    {
+      "labelText": "Eyespot",
+      "infoText": "The eyespot (stigma) is a light-sensitive region that helps euglena detect light direction for phototaxis.",
+      "normalizedPos": {
+        "x": 0.3,
+        "y": 0.25
+      },
+      "lineStartPos": {
+        "x": 0.35,
+        "y": 0.25
+      }
+    },
+    {
+      "labelText": "Chloroplasts",
+      "infoText": "Chloroplasts contain chlorophyll for photosynthesis, allowing euglena to produce food from sunlight like plants.",
+      "normalizedPos": {
+        "x": 0.5,
+        "y": 0.45
+      },
+      "lineStartPos": {
+        "x": 0.45,
+        "y": 0.45
+      }
+    },
+    {
+      "labelText": "Nucleus",
+      "infoText": "The nucleus contains the cell's genetic material and controls cell functions and reproduction.",
+      "normalizedPos": {
+        "x": 0.45,
+        "y": 0.65
+      },
+      "lineStartPos": {
+        "x": 0.4,
+        "y": 0.6
+      }
+    },
+    {
+      "labelText": "Pellicle",
+      "infoText": "The pellicle is a flexible protein layer outside the cell membrane that allows euglena to change shape.",
+      "normalizedPos": {
+        "x": 0.75,
+        "y": 0.4
+      },
+      "lineStartPos": {
+        "x": 0.65,
+        "y": 0.4
+      }
+    }
+  ]
+}
