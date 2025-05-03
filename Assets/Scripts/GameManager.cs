@@ -1790,6 +1790,9 @@ public class GameManager : MonoBehaviour
             {
                 lineCanvasGroup = lineObj.AddComponent<CanvasGroup>();
             }
+
+            // Set initial alpha to 0 for the line
+            lineCanvasGroup.alpha = 0;
         }
 
         // Set initial states
@@ -1811,28 +1814,62 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        // First animate the line
-        float lineDuration = 0.3f;
+        // Get the line's RectTransform and Image
+        RectTransform lineRect = lineObj.GetComponent<RectTransform>();
+        Image lineImage = lineObj.GetComponent<Image>();
+
+        if (lineRect == null || lineImage == null)
+        {
+            Debug.LogWarning("Line missing RectTransform or Image component");
+            yield break;
+        }
+
+        // Store original line properties
+        Vector2 originalSize = lineRect.sizeDelta;
+        Vector2 originalPos = lineRect.anchoredPosition;
+        Quaternion originalRotation = lineRect.rotation;
+
+        // Calculate the start and end positions from the line's current configuration
+        Vector2 startPos = lineRect.anchoredPosition;
+        float angle = lineRect.rotation.eulerAngles.z * Mathf.Deg2Rad;
+        float distance = lineRect.sizeDelta.x;
+        Vector2 direction = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
+        Vector2 endPos = startPos + direction * distance;
+
+        // Set initial line size to zero length but keep the position and rotation
+        lineRect.sizeDelta = new Vector2(0, originalSize.y);
+
+        // Make the line visible immediately (but with zero length)
+        lineCanvasGroup.alpha = 1;
+
+        // First animate the line growing
+        float lineDuration = 0.4f;
         float elapsed = 0;
 
         while (elapsed < lineDuration)
         {
             // Safety check - if objects were destroyed during animation, exit early
-            if (lineObj == null || lineCanvasGroup == null)
+            if (lineObj == null || lineCanvasGroup == null || lineRect == null)
             {
                 Debug.LogWarning("Line object was destroyed during animation");
                 yield break;
             }
 
             float t = elapsed / lineDuration;
-            lineCanvasGroup.alpha = t;
+            float smoothT = Mathf.SmoothStep(0, 1, t);
+
+            // Animate the line length
+            lineRect.sizeDelta = new Vector2(originalSize.x * smoothT, originalSize.y);
+
             elapsed += Time.deltaTime;
             yield return null;
         }
 
         // Safety check again
-        if (lineCanvasGroup != null)
+        if (lineCanvasGroup != null && lineRect != null)
         {
+            // Ensure final line state
+            lineRect.sizeDelta = originalSize;
             lineCanvasGroup.alpha = 1;
         }
 
