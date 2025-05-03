@@ -2291,4 +2291,29 @@ public class GameManager : MonoBehaviour
         target.SetActive(false);
     }
     #endregion
+
+    //Note: Adding these two functions for future reference, if we click on the drop down menu quickly when animations are performing we should disable the drop down menu for that moement
+    /// <summary>
+    /// Disables the organism selector dropdown during animations or loading operations
+    /// </summary>
+    private void DisableOrganismSelector()
+    {
+        if (organismSelector != null)
+        {
+            Debug.Log("Disabling organism selector during animation/loading");
+            organismSelector.interactable = false;
+        }
+    }
+
+    /// <summary>
+    /// Enables the organism selector dropdown after animations or loading operations complete
+    /// </summary>
+    private void EnableOrganismSelector()
+    {
+        if (organismSelector != null)
+        {
+            Debug.Log("Re-enabling organism selector");
+            organismSelector.interactable = true;
+        }
+    }
 }
