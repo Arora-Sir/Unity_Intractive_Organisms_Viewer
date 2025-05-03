@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: a0c90cb75121f1d469fde15750b1c0bf
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - bgmSource: {instanceID: 0}
+  - sfxSource: {instanceID: 0}
+  - bgmClip: {fileID: 8300000, guid: 5e6d33d32e86c2b498ac0e1cac1ec714, type: 3}
+  - frogClip: {fileID: 8300000, guid: fd3ac61efb0c8ef479a47c697810395d, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
