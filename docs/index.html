@@ -80,6 +80,38 @@
                 animation: rotate 2s infinite;
             }
 
+        /* For desktop users */
+        #desktop-portrait-mode {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            color: white;
+            z-index: 998;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            padding: 20px;
+        }
+
+        #desktop-continue-button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 20px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
         @keyframes rotate {
             0% {
                 transform: rotate(0deg);
@@ -101,6 +133,18 @@
         <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0id2hpdGUiIGQ9Ik00IDIwaDEwVjRINHYxNnptMiAySDIwVjhoLTEydjE0aC0yVjIwaC0yVjJoMTh2MjAtMmgtMnoiLz48L3N2Zz4=" alt="Rotate Device">
         <h2>Please rotate your device</h2>
         <p>This game works best in portrait mode</p>
+    </div>
+
+    <!-- Add this for desktop users -->
+    <div id="desktop-portrait-mode">
+        <h2>Portrait Mode Required</h2>
+        <p>This application is designed for portrait mode viewing.</p>
+        <p>For the best experience on desktop:</p>
+        <ul style="text-align: left; display: inline-block;">
+            <li>Use a narrow browser window</li>
+            <li>Or use developer tools (F12) and select a mobile device</li>
+        </ul>
+        <button id="desktop-continue-button">Continue Anyway</button>
     </div>
 
     <div id="unity-container" class="unity-desktop">
@@ -125,6 +169,10 @@
         var progressBarFull = document.querySelector("#unity-progress-bar-full");
         var fullscreenButton = document.querySelector("#unity-fullscreen-button");
         var warningBanner = document.querySelector("#unity-warning");
+        var orientationWarning = document.getElementById('orientation-warning');
+        var desktopPortraitMode = document.getElementById('desktop-portrait-mode');
+        var desktopContinueButton = document.getElementById('desktop-continue-button');
+        var isDesktopMode = !(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
 
         // Force portrait orientation and maintain aspect ratio
         function maintainAspectRatio() {
@@ -148,22 +196,16 @@
         window.addEventListener('resize', maintainAspectRatio);
         window.addEventListener('orientationchange', maintainAspectRatio);
 
+        // Suppress Unity's warning banner
         function unityShowBanner(msg, type) {
-            function updateBannerVisibility() {
-                warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
+            // Only show critical errors
+            if (type == 'error') {
+                var div = document.createElement('div');
+                div.innerHTML = msg;
+                warningBanner.appendChild(div);
+                div.style = 'background: red; padding: 10px;';
+                warningBanner.style.display = 'block';
             }
-            var div = document.createElement('div');
-            div.innerHTML = msg;
-            warningBanner.appendChild(div);
-            if (type == 'error') div.style = 'background: red; padding: 10px;';
-            else {
-                if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
-                setTimeout(function () {
-                    warningBanner.removeChild(div);
-                    updateBannerVisibility();
-                }, 5000);
-            }
-            updateBannerVisibility();
         }
 
         var buildUrl = "Build";
@@ -187,7 +229,18 @@
             document.getElementsByTagName('head')[0].appendChild(meta);
             container.className = "unity-mobile";
             canvas.className = "unity-mobile";
+        } else {
+            // For desktop, show the portrait mode message
+            desktopPortraitMode.style.display = 'flex';
+            canvas.style.visibility = 'hidden';
         }
+
+        // Desktop continue button
+        desktopContinueButton.addEventListener('click', function () {
+            desktopPortraitMode.style.display = 'none';
+            canvas.style.visibility = 'visible';
+            maintainAspectRatio();
+        });
 
         // Call once on page load
         maintainAspectRatio();
@@ -208,23 +261,26 @@
                 };
                 // Call once more after game loads
                 maintainAspectRatio();
+
+                // Store Unity instance for communication
+                window.unityInstance = unityInstance;
             }).catch((message) => {
                 alert(message);
             });
         };
 
-        // Add this code to your script section
         function checkOrientation() {
-            var orientationWarning = document.getElementById('orientation-warning');
-
-            if (window.innerWidth > window.innerHeight) {
-                // Landscape orientation
-                orientationWarning.style.display = 'flex';
-                canvas.style.visibility = 'hidden';
-            } else {
-                // Portrait orientation
-                orientationWarning.style.display = 'none';
-                canvas.style.visibility = 'visible';
+            // Only check orientation on mobile devices
+            if (!isDesktopMode) {
+                if (window.innerWidth > window.innerHeight) {
+                    // Landscape orientation
+                    orientationWarning.style.display = 'flex';
+                    canvas.style.visibility = 'hidden';
+                } else {
+                    // Portrait orientation
+                    orientationWarning.style.display = 'none';
+                    canvas.style.visibility = 'visible';
+                }
             }
         }
 
