@@ -102,10 +102,6 @@ public class GameManager : MonoBehaviour
     [Tooltip("Text component in the no internet popup")]
     public TextMeshProUGUI noInternetText;
 
-    [Header("WebGL Settings")]
-    [Tooltip("Whether to show the no internet popup in WebGL builds")]
-    public bool showNoInternetPopupInWebGL = false;
-
     // Track internet connection status
     private bool hasInternetConnection = true;
     private bool isUsingDefaultImage = false;
@@ -235,26 +231,6 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Starting initial internet check with delay");
 
-        // For WebGL, assume internet is available
-#if UNITY_WEBGL && !UNITY_EDITOR
-    hasInternetConnection = true;
-    Debug.Log("WebGL build: assuming internet connection is available");
-    
-    // Wait for 0.5 seconds to give time for the game to initialize
-    yield return new WaitForSeconds(0.5f);
-    
-    // Load the online image
-    Debug.Log("WebGL: loading online Amoeba image");
-    ForceLoadAmoebaImage();
-    
-    // Hide loading indicator
-    if (loadingIndicator != null)
-        loadingIndicator.SetActive(false);
-        
-    yield break;
-#endif
-
-        // For other platforms, use the existing code
         // Check internet connection
         UnityWebRequest initialRequest = UnityWebRequest.Head("https://www.google.com");
         yield return initialRequest.SendWebRequest();
@@ -2178,15 +2154,7 @@ public class GameManager : MonoBehaviour
     {
         WaitForSeconds waitInterval = new WaitForSeconds(5f); // Check every 5 seconds
 
-        // In WebGL, we can skip the internet checks completely
-#if UNITY_WEBGL && !UNITY_EDITOR
-    // For WebGL, we'll assume internet is always available
-    hasInternetConnection = true;
-    Debug.Log("WebGL build: assuming internet connection is available");
-    yield break;
-#endif
-
-        // Continue checking periodically for other platforms
+        // Continue checking periodically
         while (true)
         {
             bool previousConnectionState = hasInternetConnection;
@@ -2269,15 +2237,6 @@ public class GameManager : MonoBehaviour
     /// </summary>
     void ShowNoInternetPopup()
     {
-        // Skip showing the popup in WebGL builds unless explicitly enabled
-#if UNITY_WEBGL && !UNITY_EDITOR
-    if (!showNoInternetPopupInWebGL)
-    {
-        Debug.Log("Skipping no internet popup in WebGL build");
-        return;
-    }
-#endif
-
         if (noInternetPopup != null)
         {
             noInternetPopup.SetActive(true);
