@@ -238,6 +238,10 @@ public class GameManager : MonoBehaviour
         hasInternetConnection = initialRequest.result != UnityWebRequest.Result.ConnectionError &&
                                initialRequest.result != UnityWebRequest.Result.ProtocolError;
 
+#if UNITY_WEBGL
+        hasInternetConnection = true;
+#endif
+
         Debug.Log($"Initial internet check result after delay: {hasInternetConnection}");
 
         // Wait for 0.5 seconds to give time for internet connection to establish
@@ -2165,6 +2169,10 @@ public class GameManager : MonoBehaviour
 
             hasInternetConnection = request.result != UnityWebRequest.Result.ConnectionError &&
                                    request.result != UnityWebRequest.Result.ProtocolError;
+
+#if UNITY_WEBGL
+            hasInternetConnection = true;
+#endif
 
             Debug.Log($"Internet connection check: {hasInternetConnection}");
 
